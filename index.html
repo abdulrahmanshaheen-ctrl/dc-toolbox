@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>talabat DC Toolbox</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -420,6 +421,26 @@
     z-index: 140; backdrop-filter: blur(2px);
   }
   .sidebar-overlay.visible { display: block; }
+
+  /* ── WORK FORMATTER ── */
+  .wf-textarea { width: 100%; min-height: 150px; border: 1.5px solid rgba(255,89,0,0.25); border-radius: 12px; padding: 14px; font-family: 'Poppins', monospace; font-size: 12px; color: var(--burgundy); background: var(--cream); resize: vertical; }
+  .wf-textarea:focus { outline: none; border-color: var(--orange); }
+  .wf-link-btn { background: none; border: none; color: var(--orange-dark); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: underline; margin-top: 10px; }
+  .wf-input { width: 100%; max-width: 320px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid rgba(255,89,0,0.25); background: var(--cream); font-family: inherit; font-size: 13px; color: var(--burgundy); }
+  .wf-label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--gray); }
+  .wf-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px; }
+  .wf-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); padding: 6px 10px; border-bottom: 1.5px solid rgba(255,89,0,0.2); }
+  .wf-table td { padding: 8px 10px; border-bottom: 1px solid rgba(65,21,23,0.07); font-weight: 500; }
+  .wf-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+  .wf-tag.ok { background: var(--green-pale); color: var(--green); }
+  .wf-tag.miss { background: var(--orange-pale); color: var(--orange-dark); }
+  .wf-modal-back { position: fixed; inset: 0; background: rgba(65,21,23,0.55); display: none; align-items: center; justify-content: center; z-index: 300; padding: 20px; }
+  .wf-modal-back.visible { display: flex; }
+  .wf-modal { background: var(--white); border-radius: 16px; padding: 28px; max-width: 420px; width: 100%; box-shadow: 0 12px 40px rgba(65,21,23,0.35); border-top: 5px solid var(--orange); }
+  .wf-modal h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .wf-modal p { font-size: 13px; color: var(--gray); line-height: 1.6; }
+  .wf-modal ul { margin: 14px 0 20px 0; list-style: none; max-height: 200px; overflow-y: auto; }
+  .wf-modal li { font-size: 14px; font-weight: 700; padding: 8px 12px; background: var(--cream); border-radius: 8px; margin-bottom: 6px; }
 </style>
 </head>
 <body>
@@ -460,6 +481,11 @@
       <span class="nav-label">Shipping Plan</span>
     </a>
 
+    <a class="nav-item" id="nav-works" onclick="showTool('works')">
+      <span class="nav-icon">🖨️</span>
+      <span class="nav-label">Work Formatter</span>
+    </a>
+
     <div class="sidebar-footer">
       talabat DC Toolbox<br>
       Built for <span>Data Team</span>
@@ -489,6 +515,12 @@
           <span class="home-tool-icon">🚛</span>
           <div class="home-tool-name">Shipping Plan</div>
           <div class="home-tool-desc">Manage daily transfer orders for 89 Dark Stores. Set holds, calculate trucks, and export the final shipping plan to Excel.</div>
+          <div class="home-tool-arrow">Open tool →</div>
+        </div>
+        <div class="home-tool-card" onclick="showTool('works')">
+          <span class="home-tool-icon">🖨️</span>
+          <div class="home-tool-name">Work Formatter</div>
+          <div class="home-tool-desc">Upload the Works export, add ST → branch names, and get a print-ready PDF with barcodes. Replaces the Excel macro.</div>
           <div class="home-tool-arrow">Open tool →</div>
         </div>
       </div>
@@ -768,6 +800,85 @@
       </div>
     </div>
 
+    <!-- ══════════════════════════════════════════
+         WORK FORMATTER PANEL
+    ══════════════════════════════════════════ -->
+    <div class="tool-panel" id="panel-works">
+      <div class="hero">
+        <div class="hero-eyebrow">Warehouse Management</div>
+        <h1>Print <span>Works</span> With Branch Names</h1>
+        <p class="hero-sub">Upload the Works export from the system, paste your ST → Branch list, and get a ready-to-print PDF.</p>
+      </div>
+      <div class="inner">
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">1</div>
+            <div>
+              <div class="step-title">Upload the Works File</div>
+              <div class="step-desc">The .xlsx exported from the system (one sheet per work)</div>
+            </div>
+          </div>
+          <div class="upload-zone" id="wf-zone-works">
+            <input type="file" id="wf-file-works" accept=".xlsx,.xls" />
+            <div class="upload-icon">📄</div>
+            <div class="upload-label">Works Report</div>
+            <div class="upload-hint">Click or drag the file here</div>
+            <div class="upload-filename" id="wf-name-works" style="display:none"></div>
+          </div>
+          <div class="error-msg" id="wf-error-msg"></div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">2</div>
+            <div>
+              <div class="step-title">Paste ST → Branch Names</div>
+              <div class="step-desc">Two columns copied from Google Sheets: ST number, then branch name</div>
+            </div>
+          </div>
+          <textarea class="wf-textarea" id="wf-map-input" placeholder="ST099573&#9;Hurgada-DS 38&#10;ST099574&#9;Alex (Ibrahimya)-DS 27"></textarea>
+          <button class="wf-link-btn" id="wf-clear-map">Clear list</button>
+          <div id="wf-st-summary"></div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <div class="step-num">3</div>
+            <div>
+              <div class="step-title">Generate the PDF</div>
+              <div class="step-desc">Everything happens in your browser — no data leaves your device</div>
+            </div>
+          </div>
+          <label class="wf-label" for="wf-printedby">Printed by (footer)</label>
+          <input type="text" class="wf-input" id="wf-printedby" value="" placeholder="Your name (optional)" />
+          <button class="process-btn" id="wf-process-btn" disabled>📄 Generate PDF</button>
+          <div class="progress-bar-wrap" id="wf-progress-wrap"><div class="progress-bar" id="wf-progress-bar"></div></div>
+          <div class="progress-label" id="wf-progress-label"></div>
+        </div>
+
+        <div class="results-card" id="wf-results-card">
+          <div class="results-title">PDF <span>Ready</span> ✓</div>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="stat-value" id="wf-stat-works">—</div><div class="stat-label">Works</div></div>
+            <div class="stat-box"><div class="stat-value" id="wf-stat-sts">—</div><div class="stat-label">STs</div></div>
+            <div class="stat-box"><div class="stat-value" id="wf-stat-pages">—</div><div class="stat-label">Pages</div></div>
+          </div>
+          <button class="btn-lime" id="wf-download-btn">⬇ Download PDF</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="wf-modal-back" id="wf-modal-back">
+      <div class="wf-modal">
+        <h3>Branch name missing</h3>
+        <p id="wf-modal-text"></p>
+        <ul id="wf-modal-list"></ul>
+        <button class="btn-primary" id="wf-modal-ok" style="width:100%">OK, I'll add them</button>
+      </div>
+    </div>
+
     <footer>talabat DC Toolbox &nbsp;·&nbsp; Built for <span>Data Team</span></footer>
   </div><!-- /main-content -->
 </div><!-- /app-body -->
@@ -776,7 +887,7 @@
 // ══════════════════════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════════════════════
-const TOOL_NAMES = { home: 'Home', stock: 'Stock Cleaner', shipping: 'Shipping Plan' };
+const TOOL_NAMES = { home: 'Home', stock: 'Stock Cleaner', shipping: 'Shipping Plan', works: 'Work Formatter' };
 
 function showTool(id) {
   document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
@@ -1421,6 +1532,347 @@ function spDownloadTemplate() {
   a.download = 'talabat_plan_template.xlsx';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
+
+// ══════════════════════════════════════════════════════
+// WORK FORMATTER LOGIC (isolated in its own scope)
+// ══════════════════════════════════════════════════════
+(function () {
+// ---------- Code 39 ----------
+const C39 = {
+  '0':'nnnwwnwnn','1':'wnnwnnnnw','2':'nnwwnnnnw','3':'wnwwnnnnn','4':'nnnwwnnnw','5':'wnnwwnnnn',
+  '6':'nnwwwnnnn','7':'nnnwnnwnw','8':'wnnwnnwnn','9':'nnwwnnwnn','A':'wnnnnwnnw','B':'nnwnnwnnw',
+  'C':'wnwnnwnnn','D':'nnnnwwnnw','E':'wnnnwwnnn','F':'nnwnwwnnn','G':'nnnnnwwnw','H':'wnnnnwwnn',
+  'I':'nnwnnwwnn','J':'nnnnwwwnn','K':'wnnnnnnww','L':'nnwnnnnww','M':'wnwnnnnwn','N':'nnnnwnnww',
+  'O':'wnnnwnnwn','P':'nnwnwnnwn','Q':'nnnnnnwww','R':'wnnnnnwwn','S':'nnwnnnwwn','T':'nnnnwnwwn',
+  'U':'wwnnnnnnw','V':'nwwnnnnnw','W':'wwwnnnnnn','X':'nwnnwnnnw','Y':'wwnnwnnnn','Z':'nwwnwnnnn',
+  '-':'nwnnnnwnw','.':'wwnnnnwnn',' ':'nwwnnnwnn','*':'nwnnwnwnn','$':'nwnwnwnnn','/':'nwnwnnnwn',
+  '+':'nwnnnwnwn','%':'nnnwnwnwn'
+};
+const WIDE = 2.2;
+
+function code39Encodable(text) {
+  const t = String(text).toUpperCase();
+  if (!t.length) return false;
+  for (const ch of t) { if (ch === '*' || !C39[ch]) return false; }
+  return true;
+}
+function code39Units(text) { return ('*' + text + '*').length * (6 + 3 * WIDE + 1) - 1; }
+
+// Draws a Code 39 barcode as ONE vector path (keeps the PDF small). Returns drawn width.
+function drawCode39(doc, text, x, y, h, unit, maxW) {
+  const t = String(text).toUpperCase();
+  if (!code39Encodable(t)) return 0;
+  const total = code39Units(t);
+  if (maxW) unit = Math.min(unit, maxW / total);
+  const k = doc.internal.scaleFactor;
+  const H = doc.internal.pageSize.getHeight();
+  const f = n => (Math.round(n * 100) / 100).toString();
+  const ops = [];
+  let cx = x;
+  const full = '*' + t + '*';
+  for (let c = 0; c < full.length; c++) {
+    const pat = C39[full[c]];
+    for (let i = 0; i < 9; i++) {
+      const w = (pat[i] === 'w' ? WIDE : 1) * unit;
+      if (i % 2 === 0) ops.push(f(cx * k) + ' ' + f((H - y - h) * k) + ' ' + f(w * k) + ' ' + f(h * k) + ' re');
+      cx += w;
+    }
+    cx += unit; // inter-character gap
+  }
+  doc.setFillColor(0, 0, 0);
+  doc.internal.write(ops.join('\n'));
+  doc.internal.write('f');
+  return cx - x;
+}
+
+// ---------- Parse the system workbook ----------
+const s = v => (v === undefined || v === null) ? '' : String(v).trim();
+
+function parseWorkbook(wb, XLSXlib) {
+  const works = [];
+  wb.SheetNames.forEach((name, idx) => {
+    const rows = XLSXlib.utils.sheet_to_json(wb.Sheets[name], { header: 1, defval: '', raw: false });
+    if (!rows.length) return;
+    const w = { sheet: name, order: idx, head: {}, lines: [], status: '' };
+    let tableStart = -1;
+    for (let r = 0; r < rows.length; r++) {
+      const row = rows[r];
+      const a = s(row[0]);
+      if (a === 'Line') { tableStart = r + 1; break; }
+      if (a) w.head[a] = s(row[2]);
+      const g = s(row[6]);
+      if (g) w.head[g] = s(row[8]);
+    }
+    if (tableStart < 0) return; // not a work sheet
+    for (let r = tableStart; r < rows.length; r++) {
+      const row = rows[r];
+      const a = s(row[0]);
+      if (a === 'Status') { w.status = s(row[1]); continue; }
+      if (!a && !s(row[1])) continue;
+      w.lines.push({ line: a, type: s(row[1]), custom: s(row[2]), item: s(row[3]), loc: s(row[7]), qty: s(row[9]) });
+    }
+    w.st = w.head['Order number'] || '';
+    w.workId = w.head['Work ID'] || '';
+    if (w.workId || w.lines.length) works.push(w);
+  });
+  return works;
+}
+
+// ---------- Parse the ST -> branch list ----------
+function parseMapping(text) {
+  const map = {};
+  String(text || '').split(/\r?\n/).forEach(line => {
+    const m = line.match(/(ST\d+)\s*[\t,;:|\-–]*\s*(.*)$/i);
+    if (!m) return;
+    const name = m[2].trim().replace(/^["']|["']$/g, '').trim();
+    if (name) map[m[1].toUpperCase()] = name;
+  });
+  return map;
+}
+
+// ---------- PDF ----------
+function fmtStamp(d) {
+  let h = d.getHours(); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear() + ' ' + h + ':' + String(d.getMinutes()).padStart(2, '0') + ' ' + ap;
+}
+
+async function buildPdf(works, map, opts, jsPDFlib, onProgress) {
+  const doc = new jsPDFlib({ unit: 'pt', format: opts.paper, orientation: 'portrait', compress: true });
+  const PW = doc.internal.pageSize.getWidth();
+  const PH = doc.internal.pageSize.getHeight();
+  const X0 = 36, W = PW - 72, T = 36;
+  const ROW_H = 14;
+  const TABLE_TOP = T + 170;                 // first data row top
+  const BOTTOM = PH - 112;                   // content limit (leaves room for the footer)
+  const CAP = Math.floor((BOTTOM - TABLE_TOP) / ROW_H);
+
+  const col = { line: 0, type: .06, custom: .145, item: .28, bar: .535, loc: .74, qty: .87 };
+  const BLACK = [0, 0, 0], BURG = [20, 20, 20];
+
+  // 1) layout pass -> know total pages
+  const pages = []; // {work, rows, last}
+  works.forEach(w => {
+    const items = w.lines.map(l => ({ kind: 'line', l }));
+    items.push({ kind: 'status' });
+    let cur = [], used = 0;
+    items.forEach(it => {
+      const need = it.kind === 'status' ? 3 : 1;
+      if (used + need > CAP && cur.length) { pages.push({ w, rows: cur }); cur = []; used = 0; }
+      cur.push(it); used += need;
+    });
+    if (cur.length) pages.push({ w, rows: cur });
+    if (!pages.length || pages[pages.length - 1].w !== w) pages.push({ w, rows: [] });
+  });
+  const total = pages.length;
+  const stamp = fmtStamp(new Date());
+
+  // 2) draw
+  for (let p = 0; p < total; p++) {
+    if (p > 0) doc.addPage();
+    const { w, rows } = pages[p];
+    const branch = map[w.st.toUpperCase()] || w.st || 'Work';
+
+    // header box
+    doc.setDrawColor(0); doc.setLineWidth(0.7);
+    doc.rect(X0, T, W, 144);
+    doc.setTextColor(0); doc.setFont('helvetica', 'bold');
+    let fs = 20;
+    doc.setFontSize(fs);
+    while (doc.getTextWidth(branch) > W - 30 && fs > 10) { fs -= 1; doc.setFontSize(fs); }
+    doc.text(branch, X0 + W / 2, T + 34, { align: 'center' });
+
+    const L1 = X0 + 4, V1 = X0 + W * .18, BAR = X0 + W * .345, BARW = W * .32, L2 = X0 + W * .675, V2 = X0 + W * .85;
+    const y0 = T + 56, dy = 16.4;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    const H = w.head;
+    const F = (label, val, y, xl, xv) => { doc.text(label, xl, y); if (val) doc.text(String(val), xv, y); };
+    F('Warehouse', H['Warehouse'], y0, L1, V1);               F('Transaction type', H['Transaction type'], y0, L2, V2);
+    F('Site', H['Site'], y0 + dy, L1, V1);                    F('Load ID', H['Load ID'], y0 + dy, L2, V2);
+    F('Work ID', w.workId, y0 + dy * 2, L1, V1);              F('Work creation number', H['Work creation number'], y0 + dy * 2, L2, V2);
+    F('Order number', w.st, y0 + dy * 3, L1, V1);             F('Combined work ID', H['Combined work ID'], y0 + dy * 3, L2, V2);
+    const plate = (H['Target license plate ID'] || '').trim();
+    F('Target license plate ID', plate, y0 + dy * 4, L1, V1);
+    F('Lines blocked', H['Lines blocked'], y0 + dy * 5, L1, V1);
+    // header barcodes (start right after the Work ID text, end before the right-hand labels)
+    const barX = Math.max(BAR, V1 + doc.getTextWidth(w.workId) + 8);
+    const barW = L2 - 8 - barX;
+    drawCode39(doc, w.workId, barX, y0 + dy * 2 - 9, 11, 0.8, barW);
+    drawCode39(doc, w.st, barX, y0 + dy * 3 - 9, 11, 0.8, barW);
+    if (plate) drawCode39(doc, plate, barX, y0 + dy * 4 - 9, 11, 0.8, barW);
+
+    // table header
+    doc.setLineWidth(0.5);
+    doc.line(X0, T + 152, X0 + W, T + 152);
+    doc.line(X0, T + 168, X0 + W, T + 168);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5);
+    const hy = T + 163;
+    doc.text('Line', X0 + col.line * W, hy);
+    doc.text('Work type', X0 + col.type * W, hy);
+    doc.text('Custom work type', X0 + col.custom * W, hy);
+    doc.text('Item number', X0 + col.item * W, hy);
+    doc.text('Item number bar code', X0 + col.bar * W, hy);
+    doc.text('Location ID', X0 + col.loc * W, hy);
+    doc.text('Work qty', X0 + col.qty * W, hy);
+
+    // rows
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
+    let y = TABLE_TOP;
+    rows.forEach(it => {
+      if (it.kind === 'status') {
+        y += ROW_H * 2;
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
+        doc.text('Status', X0 + 2, y + 9); doc.text(w.status, X0 + W * .06, y + 9);
+        y += ROW_H;
+        return;
+      }
+      const l = it.l;
+      const n = parseInt(l.line, 10);
+      if (!(n % 2)) { doc.setFillColor(242, 242, 242); doc.rect(X0, y, W, ROW_H, 'F'); }
+      const by = y + 9.6;
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(0);
+      doc.text(l.line, X0 + col.line * W + 2, by);
+      doc.text(l.type, X0 + col.type * W, by);
+      if (l.custom) doc.text(l.custom, X0 + col.custom * W, by);
+      if (l.item) {
+        doc.text(l.item, X0 + col.item * W, by);
+        drawCode39(doc, l.item, X0 + col.bar * W, y + 1.8, 10.4, 0.8, W * (col.loc - col.bar) - 8);
+      }
+      doc.text(l.loc, X0 + col.loc * W, by);
+      doc.text(l.qty, X0 + col.qty * W, by);
+      y += ROW_H;
+    });
+
+    // footer
+    doc.setTextColor(0); doc.setFont('helvetica', 'normal');
+    const FX = X0 + W, FY = PH - 62;
+    doc.setFontSize(10); doc.text('Page ' + (p + 1) + ' of ' + total, FX, FY, { align: 'right' });
+    doc.setFontSize(8);  doc.text(stamp, FX, FY + 11, { align: 'right' });
+    doc.text(opts.printedBy || '', FX, FY + 21, { align: 'right' });
+
+    if (onProgress && p % 5 === 0) await onProgress(p + 1, total);
+  }
+  return { doc, pages: total };
+}
+
+function prepareWorks(works, doSort) {
+  const list = works.slice();
+  if (doSort) list.sort((a, b) => (a.st < b.st ? -1 : a.st > b.st ? 1 : a.order - b.order));
+  return list;
+}
+
+
+  const $ = id => document.getElementById(id);
+  let works = null, pdfBlob = null;
+
+  const showError = m => { const e = $('wf-error-msg'); e.textContent = m; e.classList.add('visible'); };
+  const clearError = () => $('wf-error-msg').classList.remove('visible');
+  const setProgress = (pct, label) => {
+    $('wf-progress-bar').style.width = pct + '%'; $('wf-progress-label').textContent = label;
+    $('wf-progress-wrap').classList.add('visible'); $('wf-progress-label').classList.add('visible');
+  };
+  const tick = () => new Promise(r => setTimeout(r, 0));
+
+  function renderSummary() {
+    const box = $('wf-st-summary');
+    if (!works) { box.innerHTML = ''; return; }
+    const map = parseMapping($('wf-map-input').value);
+    const counts = {};
+    works.forEach(w => { counts[w.st] = (counts[w.st] || 0) + 1; });
+    const sts = Object.keys(counts).sort();
+    const missing = sts.filter(st => !map[st.toUpperCase()]);
+    let html = '<table class="wf-table"><thead><tr><th>ST</th><th>Works</th><th>Branch</th><th></th></tr></thead><tbody>';
+    sts.forEach(st => {
+      const n = map[st.toUpperCase()];
+      const safe = (n || '—').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+      html += '<tr><td>' + (st || '(none)') + '</td><td>' + counts[st] + '</td><td>' + safe + '</td><td><span class="wf-tag ' + (n ? 'ok' : 'miss') + '">' + (n ? 'Matched' : 'Missing') + '</span></td></tr>';
+    });
+    html += '</tbody></table>';
+    if (missing.length) html += '<div class="info-note"><strong>' + missing.length + ' ST(s) have no branch name.</strong> Add them to the list above before generating.</div>';
+    box.innerHTML = html;
+  }
+
+  $('wf-map-input').addEventListener('input', renderSummary);
+  $('wf-clear-map').addEventListener('click', () => { $('wf-map-input').value = ''; renderSummary(); });
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = e => { try { resolve(XLSX.read(e.target.result, { type: 'array' })); } catch (err) { reject(err); } };
+      r.onerror = reject;
+      r.readAsArrayBuffer(file);
+    });
+  }
+
+  async function loadFile(file) {
+    clearError(); pdfBlob = null; $('wf-results-card').classList.remove('visible');
+    try {
+      const wb = await readFile(file);
+      works = parseWorkbook(wb, XLSX);
+      if (!works.length) { works = null; showError('No works found. Make sure this is the Works report exported from the system.'); $('wf-process-btn').disabled = true; return; }
+      $('wf-name-works').textContent = '✓ ' + file.name + ' — ' + works.length + ' works';
+      $('wf-name-works').style.display = 'inline-block';
+      $('wf-zone-works').classList.add('done');
+      $('wf-process-btn').disabled = false;
+      renderSummary();
+    } catch (e) { showError('Could not read the file. Make sure it is a valid .xlsx file.'); }
+  }
+
+  $('wf-file-works').addEventListener('change', function () { if (this.files[0]) loadFile(this.files[0]); });
+  const zone = $('wf-zone-works');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault(); zone.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+  });
+
+  const closeModal = () => { $('wf-modal-back').classList.remove('visible'); $('wf-map-input').focus(); $('wf-map-input').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+  $('wf-modal-ok').addEventListener('click', closeModal);
+  $('wf-modal-back').addEventListener('click', e => { if (e.target.id === 'wf-modal-back') closeModal(); });
+
+  $('wf-process-btn').addEventListener('click', async () => {
+    if (!works) return;
+    clearError(); $('wf-results-card').classList.remove('visible');
+    const map = parseMapping($('wf-map-input').value);
+    const missingSts = [...new Set(works.map(w => w.st))].filter(st => !map[st.toUpperCase()]).sort();
+    if (missingSts.length) {
+      $('wf-modal-text').textContent = missingSts.length === 1
+        ? 'This ST has no branch name. Add it in step 2 (ST + branch name), then generate again.'
+        : 'These STs have no branch name. Add them in step 2 (ST + branch name), then generate again.';
+      $('wf-modal-list').innerHTML = '';
+      missingSts.forEach(st => { const li = document.createElement('li'); li.textContent = st || '(no ST on work)'; $('wf-modal-list').appendChild(li); });
+      $('wf-modal-back').classList.add('visible');
+      return;
+    }
+    $('wf-process-btn').disabled = true;
+    try {
+      const list = prepareWorks(works, true);
+      setProgress(3, 'Building PDF...');
+      await tick();
+      const { doc, pages } = await buildPdf(list, map,
+        { paper: 'a4', printedBy: $('wf-printedby').value.trim() },
+        window.jspdf.jsPDF,
+        async (done, total) => { setProgress(Math.round(done / total * 92) + 3, 'Page ' + done + ' of ' + total + '...'); await tick(); });
+      setProgress(97, 'Finalizing file...'); await tick();
+      pdfBlob = doc.output('blob');
+      setProgress(100, 'Done!');
+      $('wf-stat-works').textContent = list.length.toLocaleString();
+      $('wf-stat-sts').textContent = new Set(list.map(w => w.st)).size.toLocaleString();
+      $('wf-stat-pages').textContent = pages.toLocaleString();
+      $('wf-results-card').classList.add('visible');
+    } catch (e) { showError('An error occurred: ' + e.message); }
+    $('wf-process-btn').disabled = false;
+  });
+
+  $('wf-download-btn').addEventListener('click', () => {
+    if (!pdfBlob) return;
+    const url = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'Works_' + new Date().toISOString().slice(0, 10) + '.pdf';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  });
+})();
 </script>
 </body>
 </html>
