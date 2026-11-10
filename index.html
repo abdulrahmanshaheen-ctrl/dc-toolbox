@@ -852,6 +852,8 @@
           </div>
           <label class="wf-label" for="wf-printedby">Printed by (footer)</label>
           <input type="text" class="wf-input" id="wf-printedby" value="" placeholder="Your name (optional)" />
+          <label class="wf-label" for="wf-note" style="margin-top:14px">Note on top of each work (optional, printed bold)</label>
+          <input type="text" class="wf-input" id="wf-note" value="" placeholder="e.g. High Values, Tobacco, Date" style="max-width:100%" />
           <button class="process-btn" id="wf-process-btn" disabled>📄 Generate PDF</button>
           <div class="progress-bar-wrap" id="wf-progress-wrap"><div class="progress-bar" id="wf-progress-bar"></div></div>
           <div class="progress-label" id="wf-progress-label"></div>
@@ -1693,6 +1695,22 @@ async function buildPdf(works, map, opts, jsPDFlib, onProgress) {
     const plate = (H['Target license plate ID'] || '').trim();
     F('Target license plate ID', plate, y0 + dy * 4, L1, V1);
     F('Lines blocked', H['Lines blocked'], y0 + dy * 5, L1, V1);
+    // optional bold note in the free space (right side, under "Combined work ID")
+    const noteText = (opts.note || '').trim();
+    if (noteText) {
+      const nw = X0 + W - L2 - 4;
+      let nfs = 10, nl;
+      doc.setFont('helvetica', 'bold');
+      for (;;) {
+        doc.setFontSize(nfs);
+        nl = doc.splitTextToSize(noteText.replace(/\s*\n\s*/g, ' '), nw);
+        if (nl.length <= 2 || nfs <= 6.5) break;
+        nfs -= 0.5;
+      }
+      nl = nl.slice(0, 2);
+      nl.forEach((ln, i) => doc.text(ln, L2, y0 + dy * (4 + i)));
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    }
     // header barcodes (start right after the Work ID text, end before the right-hand labels)
     const barX = Math.max(BAR, V1 + doc.getTextWidth(w.workId) + 8);
     const barW = L2 - 8 - barX;
@@ -1850,7 +1868,7 @@ function prepareWorks(works, doSort) {
       setProgress(3, 'Building PDF...');
       await tick();
       const { doc, pages } = await buildPdf(list, map,
-        { paper: 'a4', printedBy: $('wf-printedby').value.trim() },
+        { paper: 'a4', printedBy: $('wf-printedby').value.trim(), note: $('wf-note').value },
         window.jspdf.jsPDF,
         async (done, total) => { setProgress(Math.round(done / total * 92) + 3, 'Page ' + done + ' of ' + total + '...'); await tick(); });
       setProgress(97, 'Finalizing file...'); await tick();
