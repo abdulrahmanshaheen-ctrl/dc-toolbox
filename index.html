@@ -1974,7 +1974,7 @@ async function buildPdf(works, map, opts, jsPDFlib, onProgress) {
     doc.setDrawColor(0); doc.setLineWidth(0.7);
     doc.rect(X0, T, W, 144);
     doc.setTextColor(0); doc.setFont('helvetica', 'bold');
-    // first page of a new ST -> black NEXT tag (top-left) so the stapler sees where a new branch begins
+    // first page of a new ST -> black NEXT tag (top-right) so the stapler sees where a new branch begins
     const isStart = p === 0 || pages[p - 1].w.st !== w.st;
     let fs = 20;
     doc.setFontSize(fs);
@@ -1983,9 +1983,9 @@ async function buildPdf(works, map, opts, jsPDFlib, onProgress) {
     doc.text(branch, X0 + W / 2, T + 34, { align: 'center' });
     if (isStart) {
       doc.setFillColor(0, 0, 0);
-      doc.rect(X0 + 6, T + 8, 70, 26, 'F');
+      doc.rect(X0 + W - 76, T + 8, 70, 26, 'F');
       doc.setTextColor(255, 255, 255); doc.setFont('helvetica', 'bold'); doc.setFontSize(15);
-      doc.text('NEXT', X0 + 6 + 35, T + 26, { align: 'center' });
+      doc.text('NEXT', X0 + W - 76 + 35, T + 26, { align: 'center' });
       doc.setTextColor(0, 0, 0);
     }
 
