@@ -441,6 +441,167 @@
   .wf-modal p { font-size: 13px; color: var(--gray); line-height: 1.6; }
   .wf-modal ul { margin: 14px 0 20px 0; list-style: none; max-height: 200px; overflow-y: auto; }
   .wf-modal li { font-size: 14px; font-weight: 700; padding: 8px 12px; background: var(--cream); border-radius: 8px; margin-bottom: 6px; }
+
+  /* ── QUANTITY RECONCILIATION (scoped) ── */
+#panel-qr input { font-family: 'Poppins', Arial, sans-serif; }
+#panel-qr input:focus-visible { outline: 2px solid var(--orange-dark); outline-offset: 2px; }
+#panel-qr .hero {
+    background: var(--burgundy);
+    padding: 44px 40px 38px;
+    position: relative;
+    overflow: hidden;
+  }
+#panel-qr .hero::before {
+    content: ''; position: absolute; top: -50px; right: -50px;
+    width: 240px; height: 240px; background: var(--orange);
+    opacity: 0.11; border-radius: 50%;
+  }
+#panel-qr .hero-eyebrow {
+    color: var(--lime); font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+  }
+#panel-qr .hero h1 { color: var(--cream); font-size: 34px; font-weight: 900; line-height: 1.1; }
+#panel-qr .hero h1 span { color: var(--orange); }
+#panel-qr .hero-sub { color: rgba(244,237,227,0.6); font-size: 13px; margin-top: 8px; max-width: 560px; line-height: 1.6; }
+#panel-qr .inner { max-width: 1000px; margin: 0 auto; padding: 32px 24px 0; }
+#panel-qr .inner-tables { max-width: 1600px; margin: 0 auto; padding: 10px 24px 70px; }
+#panel-qr .info-note {
+    background: rgba(255,89,0,0.07); border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 12px;
+    color: var(--burgundy); line-height: 1.8; margin-bottom: 10px;
+  }
+#panel-qr .info-note strong { color: var(--orange-dark); }
+#panel-qr .step-card {
+    background: var(--white); border-radius: 16px; padding: 28px;
+    margin-top: 18px; margin-bottom: 18px; border: 1.5px solid rgba(255,89,0,0.10);
+    box-shadow: 0 2px 12px rgba(65,21,23,0.06);
+    transition: box-shadow 0.2s;
+  }
+#panel-qr .step-card:hover { box-shadow: 0 4px 24px rgba(255,89,0,0.10); }
+#panel-qr .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+#panel-qr .step-num {
+    width: 34px; height: 34px; background: var(--orange); color: var(--white);
+    border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px; flex-shrink: 0;
+  }
+#panel-qr .step-title { font-size: 16px; font-weight: 700; color: var(--burgundy); }
+#panel-qr .step-desc { font-size: 12px; color: var(--gray); margin-top: 2px; }
+#panel-qr .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+@media (max-width: 560px){#panel-qr .upload-grid { grid-template-columns: 1fr; }}
+#panel-qr .upload-zone {
+    border: 2px dashed rgba(255,89,0,0.3); border-radius: 12px; padding: 26px 18px;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+    background: var(--cream); position: relative;
+  }
+#panel-qr .upload-zone:hover, #panel-qr .upload-zone.drag-over { border-color: var(--orange); background: rgba(255,89,0,0.04); }
+#panel-qr .upload-zone.done { border-color: var(--orange); border-style: solid; background: rgba(255,89,0,0.05); }
+#panel-qr .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+#panel-qr .upload-icon { font-size: 27px; margin-bottom: 6px; }
+#panel-qr .upload-label { font-size: 13px; font-weight: 700; color: var(--burgundy); }
+#panel-qr .upload-hint { font-size: 11px; color: var(--gray); margin-top: 3px; }
+#panel-qr .upload-filename {
+    margin-top: 10px; font-size: 11px; font-weight: 600; color: var(--orange);
+    background: rgba(255,89,0,0.08); padding: 4px 10px; border-radius: 20px; display: none;
+  }
+#panel-qr .upload-zone.optional { border-style: dashed; }
+#panel-qr .upload-optional-tag {
+    display: inline-block; margin-top: 8px; font-size: 10px; font-weight: 700;
+    color: var(--orange-dark); background: rgba(255,89,0,0.08); padding: 2px 9px; border-radius: 10px;
+  }
+#panel-qr .process-btn {
+    width: 100%; padding: 16px; background: var(--orange); color: var(--white);
+    border: none; border-radius: 12px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; margin-top: 6px;
+  }
+#panel-qr .process-btn:hover:not(:disabled) { background: var(--orange-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,89,0,0.3); }
+#panel-qr .process-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+#panel-qr .btn-secondary {
+    padding: 10px 18px; background: var(--cream); color: var(--burgundy);
+    border: 1.5px solid rgba(255,89,0,0.3); border-radius: 8px;
+    font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+  }
+#panel-qr .btn-secondary:hover { border-color: var(--orange); background: rgba(255,89,0,0.05); }
+#panel-qr .btn-lime {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px; background: var(--lime); color: var(--burgundy);
+    border: none; border-radius: 10px; font-size: 13px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+#panel-qr .btn-lime:hover { background: #b8e600; transform: translateY(-1px); }
+#panel-qr .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+#panel-qr .progress-bar-wrap { height: 5px; background: rgba(255,89,0,0.12); border-radius: 3px; margin-top: 14px; overflow: hidden; display: none; }
+#panel-qr .progress-bar-wrap.visible { display: block; }
+#panel-qr .progress-bar { height: 100%; background: var(--orange); border-radius: 3px; width: 0%; transition: width 0.4s ease; }
+#panel-qr .progress-label { font-size: 11px; color: var(--gray); margin-top: 6px; display: none; font-weight: 500; }
+#panel-qr .progress-label.visible { display: block; }
+#panel-qr .error-msg {
+    background: rgba(255,89,0,0.12); border: 1px solid rgba(255,89,0,0.3);
+    border-radius: 10px; padding: 12px 16px; color: var(--orange-dark);
+    font-size: 12px; font-weight: 500; margin-top: 14px; display: none;
+  }
+#panel-qr .error-msg.visible { display: block; }
+#panel-qr .results-card {
+    background: var(--burgundy); border-radius: 16px; padding: 28px;
+    margin-bottom: 8px; display: none; color: var(--cream);
+  }
+#panel-qr .results-card.visible { display: block; }
+#panel-qr .results-title { font-size: 19px; font-weight: 800; color: var(--cream); }
+#panel-qr .results-title span { color: var(--lime); }
+#panel-qr .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 18px; }
+#panel-qr .stat-box { background: rgba(244,237,227,0.08); border-radius: 10px; padding: 14px; border: 1px solid rgba(244,237,227,0.12); }
+#panel-qr .stat-value { font-size: 24px; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 4px; }
+#panel-qr .stat-label { font-size: 10px; color: rgba(244,237,227,0.55); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+#panel-qr .delta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+#panel-qr .delta-card { background: rgba(244,237,227,0.08); border-radius: 10px; padding: 14px; border: 1px solid rgba(244,237,227,0.12); }
+#panel-qr .delta-label { font-size: 10px; color: rgba(244,237,227,0.55); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 9px; }
+#panel-qr .delta-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+#panel-qr .delta-before { font-size: 14px; font-weight: 600; color: rgba(244,237,227,0.4); }
+#panel-qr .delta-arrow-sep { font-size: 12px; color: rgba(244,237,227,0.3); }
+#panel-qr .delta-after { font-size: 22px; font-weight: 800; color: var(--cream); }
+#panel-qr .delta-change { font-size: 11px; font-weight: 700; margin-top: 7px; }
+#panel-qr .delta-change.improved { color: var(--lime); }
+#panel-qr .delta-change.worsened { color: var(--orange-light); }
+#panel-qr .delta-change.neutral { color: rgba(244,237,227,0.5); }
+#panel-qr .section-title { font-size: 16px; font-weight: 800; color: var(--burgundy); margin: 30px 0 12px; }
+#panel-qr .toolbar { display: flex; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+#panel-qr .toolbar input[type="text"] {
+    padding: 9px 13px; border: 1.5px solid rgba(255,89,0,0.2); border-radius: 8px;
+    font-size: 12px; color: var(--burgundy); background: var(--cream); outline: none; width: 250px;
+  }
+#panel-qr .toolbar input[type="text"]:focus { border-color: var(--orange); }
+#panel-qr .toolbar label.chk { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 7px; color: var(--burgundy); cursor: pointer; user-select: none; }
+#panel-qr .toolbar label.chk input { accent-color: var(--orange); width: 15px; height: 15px; }
+#panel-qr .rowcount { font-size: 11px; color: var(--gray); font-weight: 600; }
+#panel-qr .table-wrap { overflow-x: auto; border-radius: 12px; border: 1.5px solid rgba(255,89,0,0.12); }
+#panel-qr table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--white); }
+#panel-qr thead tr { background: var(--burgundy); }
+#panel-qr thead th {
+    padding: 11px 13px; text-align: left; font-weight: 700; font-size: 10px; color: var(--cream);
+    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; cursor: pointer; user-select: none;
+  }
+#panel-qr thead th:hover { background: rgba(0,0,0,0.18); }
+#panel-qr tbody tr { border-bottom: 1px solid rgba(65,21,23,0.07); transition: background 0.1s; }
+#panel-qr tbody tr:hover { background: rgba(255,89,0,0.03); }
+#panel-qr tbody tr:last-child { border-bottom: none; }
+#panel-qr tbody tr.sev-high { background: var(--red-pale) !important; }
+#panel-qr tbody tr.sev-med { background: var(--yellow-pale) !important; }
+#panel-qr td { padding: 9px 13px; color: var(--burgundy); white-space: nowrap; }
+#panel-qr td.num-cell { text-align: right; font-variant-numeric: tabular-nums; }
+#panel-qr td.wrap-cell { white-space: normal; max-width: 320px; min-width: 160px; line-height: 1.4; word-break: break-word; }
+#panel-qr .badge { padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; display: inline-block; }
+#panel-qr .badge.match { background: var(--green-pale); color: var(--green); }
+#panel-qr .badge.under { background: var(--red-pale); color: var(--red); }
+#panel-qr .badge.over { background: var(--yellow-pale); color: var(--yellow); }
+@media (max-width: 700px){#panel-qr .hero { padding: 32px 20px 28px; }
+#panel-qr .hero h1 { font-size: 26px; }
+#panel-qr .inner { padding: 24px 14px 0; }
+#panel-qr .inner-tables { padding: 10px 14px 60px; }
+#panel-qr .stats-grid { grid-template-columns: 1fr 1fr; }}
+#panel-qr, #panel-qr *, #panel-qr *::before, #panel-qr *::after { box-sizing: border-box; }
+#panel-qr button, #panel-qr input { font-family: 'Poppins', Arial, sans-serif; }
+#panel-qr button:focus-visible, #panel-qr input:focus-visible { outline: 2px solid var(--orange-dark); outline-offset: 2px; }
+#panel-qr .upload-filename { display: none; }
+
 </style>
 </head>
 <body>
@@ -486,6 +647,11 @@
       <span class="nav-label">Work Formatter</span>
     </a>
 
+    <a class="nav-item" id="nav-qr" onclick="showTool('qr')">
+      <span class="nav-icon">⚖️</span>
+      <span class="nav-label">Quantity Reconciliation</span>
+    </a>
+
     <div class="sidebar-footer">
       talabat DC Toolbox<br>
       Built for <span>Data Team</span>
@@ -521,6 +687,12 @@
           <span class="home-tool-icon">🖨️</span>
           <div class="home-tool-name">Work Formatter</div>
           <div class="home-tool-desc">Upload the Works export, add ST → branch names, and get a print-ready PDF with barcodes. Replaces the Excel macro.</div>
+          <div class="home-tool-arrow">Open tool →</div>
+        </div>
+        <div class="home-tool-card" onclick="showTool('qr')">
+          <span class="home-tool-icon">⚖️</span>
+          <div class="home-tool-name">Quantity Reconciliation</div>
+          <div class="home-tool-desc">Compare Data MSD against Data Portal at order + SKU level, find missing quantities, and export the result to Excel.</div>
           <div class="home-tool-arrow">Open tool →</div>
         </div>
       </div>
@@ -881,6 +1053,130 @@
       </div>
     </div>
 
+    <!-- ══════════════════════════════════════════
+         QUANTITY RECONCILIATION PANEL
+    ══════════════════════════════════════════ -->
+    <div class="tool-panel" id="panel-qr">
+<div class="hero">
+  <div class="hero-eyebrow">Warehouse Management</div>
+  <h1>Reconcile <span>Order</span> Quantities</h1>
+  <p class="hero-sub">Upload Data MSD and Data Portal — filtering, aggregation and comparison run automatically, with an Excel export of the results.</p>
+</div>
+
+<div class="inner">
+
+  <div class="info-note">
+    Filters applied to <strong>Data MSD</strong> before comparison: exclude rows where <strong>Work type</strong> is not Pick, exclude <strong>Location</strong> = Dock 01:0, and exclude <strong>Work class ID</strong> containing SO Loading. Comparison runs at <strong>Order Number + Item Number (SKU)</strong> level, where Missing QTY = Portal Qty − MSD Qty. The exported Excel has 4 sheets (Order Summary, SKU Detail, Data MSD, Data Portal) — add an After-Fix file below for 3 more (Corrected Summary, SKU Detail Fixed, Data MSD Fixed).
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Upload Your Files</div>
+        <div class="step-desc">Both files exported from your WMS as .xlsx, .xls or .csv</div>
+      </div>
+    </div>
+    <div class="upload-grid">
+      <div class="upload-zone" id="zone-msd">
+        <input type="file" id="workFile" accept=".xlsx,.xls,.csv">
+        <div class="upload-icon">📦</div>
+        <div class="upload-label">Data MSD</div>
+        <div class="upload-hint">Work / Pick data sheet</div>
+        <div class="upload-filename" id="workFileName"></div>
+      </div>
+      <div class="upload-zone" id="zone-portal">
+        <input type="file" id="salesFile" accept=".xlsx,.xls,.csv">
+        <div class="upload-icon">🧾</div>
+        <div class="upload-label">Data Portal</div>
+        <div class="upload-hint">Sales Order sheet</div>
+        <div class="upload-filename" id="salesFileName"></div>
+      </div>
+      <div class="upload-zone optional" id="zone-fixed">
+        <input type="file" id="workFixedFile" accept=".xlsx,.xls,.csv">
+        <div class="upload-icon">🔁</div>
+        <div class="upload-label">Data MSD - After Fix</div>
+        <div class="upload-hint">Re-exported MSD after correcting the picks you want to compare</div>
+        <span class="upload-optional-tag">Optional</span>
+        <div class="upload-filename" id="workFixedFileName"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Run the Comparison</div>
+        <div class="step-desc">Processing happens in your browser — no data leaves your device</div>
+      </div>
+    </div>
+    <button class="process-btn" id="runBtn" disabled>🔄 Run Comparison</button>
+    <div class="btn-row">
+      <button class="btn-secondary" id="resetBtn">Start Over</button>
+    </div>
+    <div class="progress-bar-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-label" id="progressLabel"></div>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+</div>
+
+<div class="inner-tables">
+  <!-- RESULTS -->
+  <div class="results-card" id="resultsCard">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+      <div class="results-title">Reconciliation <span>Ready</span> ✓</div>
+      <button class="btn-lime" id="exportBtn">⬇ Export Result to Excel</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-value" id="totMissingSku">0</div><div class="stat-label">Missing SKUs</div></div>
+      <div class="stat-box"><div class="stat-value" id="totMissingSkuPct">0%</div><div class="stat-label">Missing SKUs %</div></div>
+      <div class="stat-box"><div class="stat-value" id="totMissingQty">0</div><div class="stat-label">Missing QTY</div></div>
+      <div class="stat-box"><div class="stat-value" id="totMissingQtyPct">0%</div><div class="stat-label">Missing QTY %</div></div>
+    </div>
+  </div>
+
+  <div id="orderSection" style="display:none;">
+    <div class="section-title">Order Level Summary</div>
+    <div class="toolbar">
+      <input type="text" id="orderSearch" placeholder="Search by order number...">
+      <span class="rowcount" id="orderRowCount"></span>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr id="orderHeadRow"></tr></thead><tbody id="orderTbody"></tbody></table>
+    </div>
+  </div>
+
+  <div id="detailSection" style="display:none; margin-top:6px;">
+    <div class="section-title">SKU + Order Detail (All Rows)</div>
+    <div class="toolbar">
+      <input type="text" id="detailSearch" placeholder="Search by order / SKU / description...">
+      <label class="chk"><input type="checkbox" id="mismatchOnly"> Show mismatches only</label>
+      <span class="rowcount" id="detailRowCount"></span>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr id="detailHeadRow"></tr></thead><tbody id="detailTbody"></tbody></table>
+    </div>
+  </div>
+
+  <div id="fixedResultsSection" style="display:none; margin-top:6px;">
+    <div class="section-title">Post-Fix Summary (Portal vs Data MSD After Fix)</div>
+    <div class="results-card visible" id="fixedSummaryContainer" style="margin-top:0;"></div>
+    <div class="toolbar">
+      <input type="text" id="detailSearch2" placeholder="Search by order / SKU / description...">
+      <label class="chk"><input type="checkbox" id="mismatchOnly2"> Show mismatches only</label>
+      <span class="rowcount" id="detailRowCount2"></span>
+    </div>
+    <div class="table-wrap">
+      <table><thead><tr id="detailHeadRow2"></tr></thead><tbody id="detailTbody2"></tbody></table>
+    </div>
+  </div>
+
+</div>
+    </div>
+
     <footer>talabat DC Toolbox &nbsp;·&nbsp; Built for <span>Data Team</span></footer>
   </div><!-- /main-content -->
 </div><!-- /app-body -->
@@ -889,7 +1185,7 @@
 // ══════════════════════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════════════════════
-const TOOL_NAMES = { home: 'Home', stock: 'Stock Cleaner', shipping: 'Shipping Plan', works: 'Work Formatter' };
+const TOOL_NAMES = { home: 'Home', stock: 'Stock Cleaner', shipping: 'Shipping Plan', works: 'Work Formatter', qr: 'Quantity Reconciliation' };
 
 function showTool(id) {
   document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
@@ -1890,6 +2186,784 @@ function prepareWorks(works, doSort) {
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 5000);
   });
+})();
+
+// ══════════════════════════════════════════════════════
+// QUANTITY RECONCILIATION LOGIC (isolated in its own scope)
+// ══════════════════════════════════════════════════════
+(function(){
+  "use strict";
+
+  var fieldAliasesWork = {
+    worktype:  ['work type'],
+    itemnumber:['item number','item no','sku'],
+    location:  ['location'],
+    workqty:   ['work quantity','work qty'],
+    order:     ['order number','order no','order'],
+    workclass: ['work class id','work class']
+  };
+  var fieldAliasesSales = {
+    order:     ['sales order','sales order number','order number','order'],
+    itemnumber:['item number','item no','sku'],
+    text:      ['text','description','desc'],
+    qty:       ['quantity','qty'],
+    store:     ['store name','store']
+  };
+
+  var L = {
+    errWork: 'Could not clearly detect Data MSD columns. Make sure it has Work type, Item number, Location, Work quantity, Order number, Work class ID.',
+    errSales: 'Could not clearly detect Data Portal columns. Make sure it has Sales order, Item number, Quantity.',
+    errFile: function(name){ return 'Failed to read file: ' + name; },
+    statIncluded: 'Included',
+    statExclNotPick: 'Excluded - Work type != Pick',
+    statExclDock: 'Excluded - Dock 01:0',
+    statExclSoLoading: 'Excluded - SO Loading',
+    statExclMissingKeys: 'Excluded - Empty Order/SKU',
+    statColHeader: 'Reconciliation Status',
+    orderCols: {order:'Order Number', store:'Store Name', salesSkuCount:'Portal SKUs', salesQtyTotal:'Portal QTY', workSkuCount:'MSD SKUs', workQtyTotal:'MSD QTY', missingSkus:'Missing SKUs', missingQty:'Missing QTY', missingSkuPct:'Missing SKUs %', missingQtyPct:'Missing QTY %'},
+    detailCols: {order:'Order Number', sku:'Item Number', store:'Store Name', text:'Description', salesQty:'Portal QTY', workQty:'MSD QTY', missing:'Missing QTY', missingPct:'Missing QTY %', status:'Status'},
+    fixedRowPortal: 'Data Portal',
+    fixedRowMsdBefore: 'Data MSD (Before)',
+    fixedRowMsdAfter: 'Data MSD (After)',
+    fixedColSku: 'Total SKU',
+    fixedColQty: 'Total Qty',
+    fixedColOrders: 'Count Order',
+    noFixedFileNote: 'Upload a Data MSD - After Fix file to see this summary and detail.',
+    ordersSuffix: 'orders',
+    rowsSuffix: 'rows',
+    doneMsg: function(a,b,c,counts){
+      var parts = [];
+      if (counts){
+        if (counts.notPick) parts.push('Work type: ' + counts.notPick);
+        if (counts.dock) parts.push('Dock 01:0: ' + counts.dock);
+        if (counts.soLoading) parts.push('SO Loading: ' + counts.soLoading);
+        if (counts.missingKeys) parts.push('Empty Order/SKU: ' + counts.missingKeys);
+      }
+      var extra = parts.length ? (' [excluded due to — ' + parts.join(', ') + ']') : '';
+      return 'Done: ' + a + ' Data MSD rows (included ' + b + ')' + extra + ' — ' + c + ' Data Portal rows.';
+    }
+  };
+
+  // ---------- generic helpers (unchanged logic) ----------
+  function norm(s){
+    return (s===undefined||s===null?'':String(s)).trim().toLowerCase().replace(/\s+/g,' ');
+  }
+  function compactLoc(s){
+    return norm(s).replace(/[\s:_-]/g,'');
+  }
+  function toNum(v){
+    if (v===undefined||v===null||v==='') return 0;
+    var n = parseFloat(String(v).replace(/,/g,''));
+    return isNaN(n)?0:n;
+  }
+  function fmtNum(n){
+    if (n===null||n===undefined) return '—';
+    return Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
+  }
+  function fmtPct(n){
+    if (n===null||n===undefined) return '—';
+    return Number(n).toFixed(2)+'%';
+  }
+  function esc(s){
+    return String(s===undefined||s===null?'':s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+
+  function detectHeader(rows, aliasMap){
+    var best = {rowIndex:0, colMap:{}, score:-1};
+    var maxScan = Math.min(rows.length, 10);
+    for (var r=0; r<maxScan; r++){
+      var row = rows[r] || [];
+      var colMap = {};
+      var score = 0;
+      for (var c=0; c<row.length; c++){
+        var cell = norm(row[c]);
+        if (!cell) continue;
+        for (var key in aliasMap){
+          if (colMap[key] !== undefined) continue;
+          if (aliasMap[key].indexOf(cell) !== -1){
+            colMap[key]=c;
+            score++;
+            break;
+          }
+        }
+      }
+      if (score > best.score){
+        best = {rowIndex:r, colMap:colMap, score:score};
+      }
+    }
+    return best;
+  }
+
+  function readFileAsRows(file){
+    return new Promise(function(resolve,reject){
+      var isCsv = /\.csv$/i.test(file.name);
+      var reader = new FileReader();
+      reader.onerror = function(){ reject(new Error(L.errFile(file.name))); };
+      if (isCsv){
+        reader.onload = function(e){
+          try{
+            var wb = XLSX.read(e.target.result, {type:'string'});
+            var ws = wb.Sheets[wb.SheetNames[0]];
+            resolve(XLSX.utils.sheet_to_json(ws,{header:1, defval:'', raw:true}));
+          }catch(err){ reject(err); }
+        };
+        reader.readAsText(file);
+      } else {
+        reader.onload = function(e){
+          try{
+            var data = new Uint8Array(e.target.result);
+            var wb = XLSX.read(data, {type:'array'});
+            var ws = wb.Sheets[wb.SheetNames[0]];
+            resolve(XLSX.utils.sheet_to_json(ws,{header:1, defval:'', raw:true}));
+          }catch(err){ reject(err); }
+        };
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  }
+
+  function processWorkRows(rows){
+    var det = detectHeader(rows, fieldAliasesWork);
+    if (det.score < 4){
+      throw new Error(L.errWork);
+    }
+    var colMap = det.colMap;
+    var map = new Map();
+    var totalRows=0, keptRows=0;
+    var counts = {notPick:0, dock:0, soLoading:0, missingKeys:0};
+    var tags = [];
+    for (var r=det.rowIndex+1; r<rows.length; r++){
+      var row = rows[r];
+      if (!row || row.length===0) continue;
+      var isEmpty = row.every(function(c){ return norm(c)===''; });
+      if (isEmpty) continue;
+      totalRows++;
+      var workType = norm(row[colMap.worktype]);
+      var location = row[colMap.location];
+      var workClass = norm(row[colMap.workclass]);
+      var order = norm(row[colMap.order]);
+      var sku = norm(row[colMap.itemnumber]);
+      var qty = toNum(row[colMap.workqty]);
+
+      var status;
+      if (workType !== 'pick'){ status='excluded_notpick'; counts.notPick++; }
+      else if (compactLoc(location) === 'dock010'){ status='excluded_dock'; counts.dock++; }
+      else if (workClass.indexOf('so loading') !== -1){ status='excluded_soloading'; counts.soLoading++; }
+      else if (!order || !sku){ status='excluded_missingkeys'; counts.missingKeys++; }
+      else {
+        status='included';
+        keptRows++;
+        var key = order+'|'+sku;
+        map.set(key, (map.get(key)||0) + qty);
+      }
+      tags.push({rowIndex:r, status:status});
+    }
+    return {map:map, totalRows:totalRows, keptRows:keptRows, counts:counts, tags:tags, headerRowIndex:det.rowIndex};
+  }
+
+  function processSalesRows(rows){
+    var det = detectHeader(rows, fieldAliasesSales);
+    if (det.score < 3){
+      throw new Error(L.errSales);
+    }
+    var colMap = det.colMap;
+    var hasStore = colMap.store !== undefined;
+    var hasText = colMap.text !== undefined;
+    var map = new Map();
+    var totalRows=0;
+    for (var r=det.rowIndex+1; r<rows.length; r++){
+      var row = rows[r];
+      if (!row || row.length===0) continue;
+      var isEmpty = row.every(function(c){ return norm(c)===''; });
+      if (isEmpty) continue;
+      var order = norm(row[colMap.order]);
+      var sku = norm(row[colMap.itemnumber]);
+      if (!order || !sku) continue;
+      totalRows++;
+      var qty = toNum(row[colMap.qty]);
+      var text = hasText ? String(row[colMap.text]||'').trim() : '';
+      var store = hasStore ? String(row[colMap.store]||'').trim() : '';
+      var key = order+'|'+sku;
+      if (map.has(key)){
+        var cur = map.get(key);
+        cur.qty += qty;
+        if (!cur.text && text) cur.text = text;
+        if (!cur.store && store) cur.store = store;
+      } else {
+        map.set(key, {qty:qty, text:text, store:store, order:order, sku:sku});
+      }
+    }
+    return {map:map, totalRows:totalRows, hasStore:hasStore};
+  }
+
+  function buildReport(workResult, salesResult){
+    var allKeys = new Set();
+    workResult.map.forEach(function(v,k){ allKeys.add(k); });
+    salesResult.map.forEach(function(v,k){ allKeys.add(k); });
+
+    var details = [];
+    allKeys.forEach(function(key){
+      var parts = key.split('|');
+      var order = parts[0], sku = parts[1];
+      var salesEntry = salesResult.map.get(key);
+      var workQty = workResult.map.has(key) ? workResult.map.get(key) : 0;
+      var salesQty = salesEntry ? salesEntry.qty : 0;
+      var missing = salesQty - workQty;
+      var missingPct = salesQty !== 0 ? (missing/salesQty*100) : (workQty>0 ? null : 0);
+      var status = missing===0 ? 'Match' : (missing>0 ? 'Under-picked' : 'Over-picked');
+      details.push({
+        order:order, sku:sku,
+        text: salesEntry ? salesEntry.text : '',
+        store: salesEntry ? salesEntry.store : '',
+        salesQty:salesQty, workQty:workQty, missing:missing, missingPct:missingPct,
+        status:status
+      });
+    });
+
+    var orderMap = new Map();
+    details.forEach(function(d){
+      var key = d.order+'|'+d.sku;
+      if (!orderMap.has(d.order)){
+        orderMap.set(d.order, {order:d.order, store:'', salesSkuCount:0, salesQtyTotal:0, workSkuCount:0, workQtyTotal:0});
+      }
+      var o = orderMap.get(d.order);
+      if (!o.store && d.store) o.store = d.store;
+      if (salesResult.map.has(key)){ o.salesSkuCount++; o.salesQtyTotal += d.salesQty; }
+      if (workResult.map.has(key)){ o.workSkuCount++; o.workQtyTotal += d.workQty; }
+    });
+
+    var orders = [];
+    var totalSalesSku=0, totalMissingSku=0, totalSalesQty=0, totalMissingQty=0;
+    var totalWorkSku=0, totalWorkQty=0;
+    orderMap.forEach(function(o){
+      var missingSkus = o.salesSkuCount - o.workSkuCount;
+      var missingQty = o.salesQtyTotal - o.workQtyTotal;
+      var missingSkuPct = o.salesSkuCount ? (missingSkus/o.salesSkuCount*100) : null;
+      var missingQtyPct = o.salesQtyTotal ? (missingQty/o.salesQtyTotal*100) : null;
+      orders.push({
+        order:o.order, store:o.store,
+        salesSkuCount:o.salesSkuCount, salesQtyTotal:o.salesQtyTotal,
+        workSkuCount:o.workSkuCount, workQtyTotal:o.workQtyTotal,
+        missingSkus:missingSkus, missingQty:missingQty,
+        missingSkuPct:missingSkuPct, missingQtyPct:missingQtyPct
+      });
+      totalSalesSku += o.salesSkuCount;
+      totalMissingSku += missingSkus;
+      totalSalesQty += o.salesQtyTotal;
+      totalMissingQty += missingQty;
+      totalWorkSku += o.workSkuCount;
+      totalWorkQty += o.workQtyTotal;
+    });
+
+    var totalSalesOrderCount = orders.filter(function(o){ return o.salesSkuCount>0; }).length;
+    var totalWorkOrderCount = orders.filter(function(o){ return o.workSkuCount>0; }).length;
+
+    var totals = {
+      totalSalesSku:totalSalesSku, totalSalesQty:totalSalesQty, totalSalesOrderCount:totalSalesOrderCount,
+      totalWorkSku:totalWorkSku, totalWorkQty:totalWorkQty, totalWorkOrderCount:totalWorkOrderCount,
+      totalMissingSku:totalMissingSku,
+      totalMissingSkuPct: totalSalesSku? (totalMissingSku/totalSalesSku*100):0,
+      totalMissingQty:totalMissingQty,
+      totalMissingQtyPct: totalSalesQty? (totalMissingQty/totalSalesQty*100):0
+    };
+    return {details:details, orders:orders, totals:totals};
+  }
+
+  function severityClass(pct){
+    if (pct===null || pct===undefined) return 'sev-high';
+    if (pct===0) return 'sev-none';
+    return Math.abs(pct)>=20 ? 'sev-high' : 'sev-med';
+  }
+
+  function buildTaggedMsdRows(rawRows, workResult){
+    var statusLabels = {
+      included: L.statIncluded,
+      excluded_notpick: L.statExclNotPick,
+      excluded_dock: L.statExclDock,
+      excluded_soloading: L.statExclSoLoading,
+      excluded_missingkeys: L.statExclMissingKeys
+    };
+    var tagByRow = {};
+    (workResult.tags||[]).forEach(function(t){ tagByRow[t.rowIndex] = statusLabels[t.status] || ''; });
+    var out = [];
+    for (var i=0;i<rawRows.length;i++){
+      var row = (rawRows[i]||[]).slice();
+      if (i === workResult.headerRowIndex){
+        row.push(L.statColHeader);
+      } else if (tagByRow.hasOwnProperty(i)){
+        row.push(tagByRow[i]);
+      } else {
+        row.push('');
+      }
+      out.push(row);
+    }
+    return out;
+  }
+
+  // ---------- App state ----------
+  var state = {
+    report:null,
+    hasStore:false,
+    rawWorkRows:null,
+    rawSalesRows:null,
+    workResult:null,
+    report2:null,
+    workResultFixed:null,
+    rawWorkFixedRows:null,
+    orderSort:{key:'order', dir:1},
+    detailSort:{key:'order', dir:1},
+    detailSort2:{key:'order', dir:1}
+  };
+
+  var workFileEl = document.getElementById('workFile');
+  var salesFileEl = document.getElementById('salesFile');
+  var workFixedFileEl = document.getElementById('workFixedFile');
+  var runBtn = document.getElementById('runBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var exportBtn = document.getElementById('exportBtn');
+
+  function setProgress(pct, label){
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = label;
+    document.getElementById('progressWrap').classList.add('visible');
+    document.getElementById('progressLabel').classList.add('visible');
+  }
+  function hideProgress(){
+    document.getElementById('progressWrap').classList.remove('visible');
+    document.getElementById('progressLabel').classList.remove('visible');
+  }
+  function showError(msg){
+    var el = document.getElementById('errorMsg');
+    el.textContent = 'Error: ' + msg;
+    el.classList.add('visible');
+  }
+  function clearError(){ document.getElementById('errorMsg').classList.remove('visible'); }
+
+  function checkReady(){
+    runBtn.disabled = !(workFileEl.files[0] && salesFileEl.files[0]);
+  }
+
+  function markZoneDone(zoneId, nameElId, file){
+    var nameEl = document.getElementById(nameElId);
+    nameEl.textContent = '✓ ' + file.name;
+    nameEl.style.display = 'inline-block';
+    document.getElementById(zoneId).classList.add('done');
+  }
+  function clearZone(zoneId, nameElId){
+    var nameEl = document.getElementById(nameElId);
+    nameEl.textContent = '';
+    nameEl.style.display = 'none';
+    document.getElementById(zoneId).classList.remove('done');
+  }
+
+  workFileEl.addEventListener('change', function(){
+    if (this.files[0]) markZoneDone('zone-msd','workFileName', this.files[0]);
+    checkReady();
+  });
+  salesFileEl.addEventListener('change', function(){
+    if (this.files[0]) markZoneDone('zone-portal','salesFileName', this.files[0]);
+    checkReady();
+  });
+  workFixedFileEl.addEventListener('change', function(){
+    if (this.files[0]) markZoneDone('zone-fixed','workFixedFileName', this.files[0]);
+  });
+
+  function wireDragDrop(zoneId, inputId){
+    var zone = document.getElementById(zoneId);
+    var input = document.getElementById(inputId);
+    zone.addEventListener('dragover', function(e){ e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', function(){ zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', function(e){
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if (e.dataTransfer.files[0]){
+        var dt = new DataTransfer();
+        dt.items.add(e.dataTransfer.files[0]);
+        input.files = dt.files;
+        input.dispatchEvent(new Event('change'));
+      }
+    });
+  }
+  wireDragDrop('zone-msd','workFile');
+  wireDragDrop('zone-portal','salesFile');
+  wireDragDrop('zone-fixed','workFixedFile');
+
+  resetBtn.addEventListener('click', function(){
+    workFileEl.value=''; salesFileEl.value=''; workFixedFileEl.value='';
+    clearZone('zone-msd','workFileName');
+    clearZone('zone-portal','salesFileName');
+    clearZone('zone-fixed','workFixedFileName');
+    document.getElementById('resultsCard').classList.remove('visible');
+    document.getElementById('orderSection').style.display='none';
+    document.getElementById('detailSection').style.display='none';
+    document.getElementById('fixedResultsSection').style.display='none';
+    runBtn.disabled = true;
+    clearError();
+    hideProgress();
+  });
+
+  runBtn.addEventListener('click', function(){
+    clearError();
+    setProgress(15, 'Reading files...');
+    runBtn.disabled = true;
+    var hasFixed = !!workFixedFileEl.files[0];
+    var reads = [ readFileAsRows(workFileEl.files[0]), readFileAsRows(salesFileEl.files[0]) ];
+    if (hasFixed) reads.push(readFileAsRows(workFixedFileEl.files[0]));
+    Promise.all(reads).then(function(rawResults){
+      setProgress(55, 'Comparing Data MSD vs Data Portal...');
+      state.rawWorkRows = rawResults[0];
+      state.rawSalesRows = rawResults[1];
+      var workResult = processWorkRows(rawResults[0]);
+      var salesResult = processSalesRows(rawResults[1]);
+      var report = buildReport(workResult, salesResult);
+      state.report = report;
+      state.hasStore = salesResult.hasStore;
+      state.workResult = workResult;
+
+      renderAll();
+      document.getElementById('resultsCard').classList.add('visible');
+      document.getElementById('orderSection').style.display='block';
+      document.getElementById('detailSection').style.display='block';
+
+      if (hasFixed){
+        setProgress(85, 'Comparing After-Fix file...');
+        state.rawWorkFixedRows = rawResults[2];
+        var workResultFixed = processWorkRows(rawResults[2]);
+        state.workResultFixed = workResultFixed;
+        state.report2 = buildReport(workResultFixed, salesResult);
+        buildDetailHead2();
+        renderDetailTable2();
+        renderFixedSummary();
+        document.getElementById('fixedResultsSection').style.display='block';
+      } else {
+        state.report2 = null;
+        state.workResultFixed = null;
+        state.rawWorkFixedRows = null;
+        document.getElementById('fixedResultsSection').style.display='none';
+      }
+
+      setProgress(100, L.doneMsg(workResult.totalRows, workResult.keptRows, salesResult.totalRows, workResult.counts));
+      runBtn.disabled = false;
+    }).catch(function(err){
+      hideProgress();
+      showError(err.message);
+      runBtn.disabled = false;
+    });
+  });
+
+  document.getElementById('orderSearch').addEventListener('input', renderOrderTable);
+  document.getElementById('detailSearch').addEventListener('input', renderDetailTable);
+  document.getElementById('mismatchOnly').addEventListener('change', renderDetailTable);
+
+  function renderAll(){
+    var t = state.report.totals;
+    document.getElementById('totMissingSku').textContent = fmtNum(t.totalMissingSku);
+    document.getElementById('totMissingSkuPct').textContent = fmtPct(t.totalMissingSkuPct);
+    document.getElementById('totMissingQty').textContent = fmtNum(t.totalMissingQty);
+    document.getElementById('totMissingQtyPct').textContent = fmtPct(t.totalMissingQtyPct);
+    buildOrderHead();
+    buildDetailHead();
+    renderOrderTable();
+    renderDetailTable();
+  }
+
+  var orderCols = [
+    {key:'order', label:'Order Number'},
+    {key:'store', label:'Store Name', storeOnly:true},
+    {key:'salesSkuCount', label:'Portal SKUs', num:true},
+    {key:'salesQtyTotal', label:'Portal QTY', num:true},
+    {key:'workSkuCount', label:'MSD SKUs', num:true},
+    {key:'workQtyTotal', label:'MSD QTY', num:true},
+    {key:'missingSkus', label:'Missing SKUs', num:true},
+    {key:'missingQty', label:'Missing QTY', num:true},
+    {key:'missingSkuPct', label:'Missing SKUs %', num:true, pct:true},
+    {key:'missingQtyPct', label:'Missing QTY %', num:true, pct:true}
+  ];
+  var detailCols = [
+    {key:'order', label:'Order Number'},
+    {key:'sku', label:'Item Number'},
+    {key:'store', label:'Store Name', storeOnly:true},
+    {key:'text', label:'Description'},
+    {key:'salesQty', label:'Portal QTY', num:true},
+    {key:'workQty', label:'MSD QTY', num:true},
+    {key:'missing', label:'Missing QTY', num:true},
+    {key:'missingPct', label:'Missing QTY %', num:true, pct:true},
+    {key:'status', label:'Status'}
+  ];
+
+  function activeCols(cols){
+    return cols.filter(function(c){ return !c.storeOnly || state.hasStore; });
+  }
+
+  function buildOrderHead(){
+    var cols = activeCols(orderCols);
+    var Lo = L.orderCols;
+    var head = document.getElementById('orderHeadRow');
+    head.innerHTML = cols.map(function(c){
+      return '<th data-key="'+c.key+'">'+(Lo[c.key]||c.key)+'</th>';
+    }).join('');
+    Array.prototype.forEach.call(head.querySelectorAll('th'), function(th){
+      th.addEventListener('click', function(){
+        var key = th.getAttribute('data-key');
+        if (state.orderSort.key===key) state.orderSort.dir *= -1;
+        else { state.orderSort.key=key; state.orderSort.dir=1; }
+        renderOrderTable();
+      });
+    });
+  }
+  function buildDetailHead(){
+    var cols = activeCols(detailCols);
+    var Ld = L.detailCols;
+    var head = document.getElementById('detailHeadRow');
+    head.innerHTML = cols.map(function(c){
+      return '<th data-key="'+c.key+'">'+(Ld[c.key]||c.key)+'</th>';
+    }).join('');
+    Array.prototype.forEach.call(head.querySelectorAll('th'), function(th){
+      th.addEventListener('click', function(){
+        var key = th.getAttribute('data-key');
+        if (state.detailSort.key===key) state.detailSort.dir *= -1;
+        else { state.detailSort.key=key; state.detailSort.dir=1; }
+        renderDetailTable();
+      });
+    });
+  }
+
+  function sortRows(rows, sort){
+    var key=sort.key, dir=sort.dir;
+    rows.sort(function(a,b){
+      var va=a[key], vb=b[key];
+      if (va===null||va===undefined) va='';
+      if (vb===null||vb===undefined) vb='';
+      if (typeof va==='number' && typeof vb==='number') return (va-vb)*dir;
+      return String(va).localeCompare(String(vb))*dir;
+    });
+    return rows;
+  }
+
+  function renderOrderTable(){
+    var q = norm(document.getElementById('orderSearch').value);
+    var rows = state.report.orders.filter(function(o){
+      return !q || norm(o.order).indexOf(q)!==-1 || norm(o.store).indexOf(q)!==-1;
+    });
+    sortRows(rows, state.orderSort);
+    var cols = activeCols(orderCols);
+    var html = rows.map(function(o){
+      var cells = cols.map(function(c){
+        var v = o[c.key];
+        var display = c.pct ? fmtPct(v) : (c.num ? fmtNum(v) : esc(v||''));
+        var cls = c.num ? ' class="num-cell"' : (c.key==='store' ? ' class="wrap-cell"' : '');
+        return '<td'+cls+'>'+display+'</td>';
+      }).join('');
+      var rowClass = ' class="'+severityClass(o.missingQtyPct)+'"';
+      return '<tr'+rowClass+'>'+cells+'</tr>';
+    }).join('');
+    document.getElementById('orderTbody').innerHTML = html;
+    document.getElementById('orderRowCount').textContent = rows.length + ' ' + L.ordersSuffix;
+  }
+
+  function renderDetailTable(){
+    var q = norm(document.getElementById('detailSearch').value);
+    var onlyMismatch = document.getElementById('mismatchOnly').checked;
+    var rows = state.report.details.filter(function(d){
+      if (onlyMismatch && d.missing===0) return false;
+      if (!q) return true;
+      return norm(d.order).indexOf(q)!==-1 || norm(d.sku).indexOf(q)!==-1 || norm(d.text).indexOf(q)!==-1;
+    });
+    sortRows(rows, state.detailSort);
+    var cols = activeCols(detailCols);
+    var html = rows.map(function(d){
+      var cells = cols.map(function(c){
+        if (c.key==='status'){
+          var cls = d.status==='Match' ? 'match' : (d.status==='Under-picked' ? 'under' : 'over');
+          return '<td><span class="badge '+cls+'">'+d.status+'</span></td>';
+        }
+        var v = d[c.key];
+        var display = c.pct ? fmtPct(v) : (c.num ? fmtNum(v) : esc(v||''));
+        var cls2 = c.num ? ' class="num-cell"' : ((c.key==='text'||c.key==='store') ? ' class="wrap-cell"' : '');
+        return '<td'+cls2+'>'+display+'</td>';
+      }).join('');
+      var rowClass = ' class="'+severityClass(d.missingPct)+'"';
+      return '<tr'+rowClass+'>'+cells+'</tr>';
+    }).join('');
+    document.getElementById('detailTbody').innerHTML = html;
+    document.getElementById('detailRowCount').textContent = rows.length + ' ' + L.rowsSuffix;
+  }
+
+  function renderFixedSummary(){
+    var box = document.getElementById('fixedSummaryContainer');
+    if (!box) return;
+    if (!state.report2 || !state.report){ box.innerHTML = '<p style="color:rgba(244,237,227,0.6); font-size:12px;">'+esc(L.noFixedFileNote)+'</p>'; return; }
+    var tb = state.report.totals;
+    var ta = state.report2.totals;
+
+    function deltaCard(label, before, after, isPercent, lowerIsBetter){
+      var b = (before===null||before===undefined) ? 0 : before;
+      var a = (after===null||after===undefined) ? 0 : after;
+      var changed = a - b;
+      var improved = lowerIsBetter ? (a < b) : (a > b);
+      var worsened = lowerIsBetter ? (a > b) : (a < b);
+      var cls = improved ? 'improved' : (worsened ? 'worsened' : 'neutral');
+      var arrow = (a < b) ? '▼' : (a > b ? '▲' : '—');
+      var changeLabel;
+      if (changed === 0){
+        changeLabel = 'No change';
+      } else if (isPercent){
+        changeLabel = arrow + ' ' + Math.abs(changed).toFixed(2) + ' pts';
+      } else {
+        var relPct = b !== 0 ? (' (' + Math.abs(changed/b*100).toFixed(1) + '%)') : '';
+        changeLabel = arrow + ' ' + fmtNum(Math.abs(changed)) + relPct;
+      }
+      var fmtFn = isPercent ? fmtPct : fmtNum;
+      return '<div class="delta-card">'
+        + '<div class="delta-label">'+esc(label)+'</div>'
+        + '<div class="delta-row"><span class="delta-before">'+fmtFn(b)+'</span><span class="delta-arrow-sep">→</span><span class="delta-after">'+fmtFn(a)+'</span></div>'
+        + '<div class="delta-change '+cls+'">'+esc(changeLabel)+'</div>'
+        + '</div>';
+    }
+
+    var cardsHtml = '<div class="delta-grid">'
+      + deltaCard('Missing SKUs', tb.totalMissingSku, ta.totalMissingSku, false, true)
+      + deltaCard('Missing SKUs %', tb.totalMissingSkuPct, ta.totalMissingSkuPct, true, true)
+      + deltaCard('Missing QTY', tb.totalMissingQty, ta.totalMissingQty, false, true)
+      + deltaCard('Missing QTY %', tb.totalMissingQtyPct, ta.totalMissingQtyPct, true, true)
+      + '</div>';
+
+    var refRows = [
+      { label:L.fixedRowPortal, sku:tb.totalSalesSku, qty:tb.totalSalesQty, ord:tb.totalSalesOrderCount },
+      { label:L.fixedRowMsdBefore, sku:tb.totalWorkSku, qty:tb.totalWorkQty, ord:tb.totalWorkOrderCount },
+      { label:L.fixedRowMsdAfter, sku:ta.totalWorkSku, qty:ta.totalWorkQty, ord:ta.totalWorkOrderCount }
+    ];
+    var refHtml = '<div class="table-wrap" style="margin-top:16px;"><table><thead><tr><th></th><th>'+L.fixedColSku+'</th><th>'+L.fixedColQty+'</th><th>'+L.fixedColOrders+'</th></tr></thead><tbody>'
+      + refRows.map(function(r){
+          return '<tr><td>'+esc(r.label)+'</td><td class="num-cell">'+fmtNum(r.sku)+'</td><td class="num-cell">'+fmtNum(r.qty)+'</td><td class="num-cell">'+fmtNum(r.ord)+'</td></tr>';
+        }).join('')
+      + '</tbody></table></div>';
+
+    box.innerHTML = cardsHtml + refHtml;
+  }
+
+  function buildDetailHead2(){
+    var cols = activeCols(detailCols);
+    var Ld = L.detailCols;
+    var head = document.getElementById('detailHeadRow2');
+    head.innerHTML = cols.map(function(c){
+      return '<th data-key="'+c.key+'">'+(Ld[c.key]||c.key)+'</th>';
+    }).join('');
+    Array.prototype.forEach.call(head.querySelectorAll('th'), function(th){
+      th.addEventListener('click', function(){
+        var key = th.getAttribute('data-key');
+        if (state.detailSort2.key===key) state.detailSort2.dir *= -1;
+        else { state.detailSort2.key=key; state.detailSort2.dir=1; }
+        renderDetailTable2();
+      });
+    });
+  }
+
+  function renderDetailTable2(){
+    if (!state.report2) return;
+    var q = norm(document.getElementById('detailSearch2').value);
+    var onlyMismatch = document.getElementById('mismatchOnly2').checked;
+    var rows = state.report2.details.filter(function(d){
+      if (onlyMismatch && d.missing===0) return false;
+      if (!q) return true;
+      return norm(d.order).indexOf(q)!==-1 || norm(d.sku).indexOf(q)!==-1 || norm(d.text).indexOf(q)!==-1;
+    });
+    sortRows(rows, state.detailSort2);
+    var cols = activeCols(detailCols);
+    var html = rows.map(function(d){
+      var cells = cols.map(function(c){
+        if (c.key==='status'){
+          var cls = d.status==='Match' ? 'match' : (d.status==='Under-picked' ? 'under' : 'over');
+          return '<td><span class="badge '+cls+'">'+d.status+'</span></td>';
+        }
+        var v = d[c.key];
+        var display = c.pct ? fmtPct(v) : (c.num ? fmtNum(v) : esc(v||''));
+        var cls2 = c.num ? ' class="num-cell"' : ((c.key==='text'||c.key==='store') ? ' class="wrap-cell"' : '');
+        return '<td'+cls2+'>'+display+'</td>';
+      }).join('');
+      var rowClass = ' class="'+severityClass(d.missingPct)+'"';
+      return '<tr'+rowClass+'>'+cells+'</tr>';
+    }).join('');
+    document.getElementById('detailTbody2').innerHTML = html;
+    document.getElementById('detailRowCount2').textContent = rows.length + ' ' + L.rowsSuffix;
+  }
+
+  document.getElementById('detailSearch2').addEventListener('input', renderDetailTable2);
+  document.getElementById('mismatchOnly2').addEventListener('change', renderDetailTable2);
+
+  exportBtn.addEventListener('click', function(){
+    if (!state.report) return;
+    var report = state.report, hasStore = state.hasStore;
+    var wb = XLSX.utils.book_new();
+
+    var headerBlock = [
+      ['Missing SKUs','Missing SKUs %','Missing QTY','Missing QTY %'],
+      [report.totals.totalMissingSku, fmtPct(report.totals.totalMissingSkuPct), report.totals.totalMissingQty, fmtPct(report.totals.totalMissingQtyPct)],
+      []
+    ];
+    var orderHeaders = ['Order Number'].concat(hasStore?['Store Name']:[]).concat(['Portal SKUs','Portal QTY','MSD SKUs','MSD QTY','Missing SKUs','Missing QTY','Missing SKUs %','Missing QTY %']);
+    var orderRows = report.orders.map(function(o){
+      var base=[o.order];
+      if (hasStore) base.push(o.store||'');
+      base.push(o.salesSkuCount,o.salesQtyTotal,o.workSkuCount,o.workQtyTotal,o.missingSkus,o.missingQty,fmtPct(o.missingSkuPct),fmtPct(o.missingQtyPct));
+      return base;
+    });
+    var orderSheetData = headerBlock.concat([orderHeaders]).concat(orderRows);
+    var ws1 = XLSX.utils.aoa_to_sheet(orderSheetData);
+    XLSX.utils.book_append_sheet(wb, ws1, 'Order Summary');
+
+    var detailHeaders = ['Order Number','Item Number'].concat(hasStore?['Store Name']:[]).concat(['Description','Portal QTY','MSD QTY','Missing QTY','Missing QTY %','Status']);
+    var detailRows = report.details.map(function(d){
+      var base=[d.order,d.sku];
+      if (hasStore) base.push(d.store||'');
+      base.push(d.text||'', d.salesQty, d.workQty, d.missing, fmtPct(d.missingPct), d.status);
+      return base;
+    });
+    var ws2 = XLSX.utils.aoa_to_sheet([detailHeaders].concat(detailRows));
+    XLSX.utils.book_append_sheet(wb, ws2, 'SKU Detail');
+
+    var msdRowsTagged = state.workResult ? buildTaggedMsdRows(state.rawWorkRows || [], state.workResult) : (state.rawWorkRows || []);
+    var ws3 = XLSX.utils.aoa_to_sheet(msdRowsTagged);
+    XLSX.utils.book_append_sheet(wb, ws3, 'Data MSD');
+
+    var ws4 = XLSX.utils.aoa_to_sheet(state.rawSalesRows || []);
+    XLSX.utils.book_append_sheet(wb, ws4, 'Data Portal');
+
+    if (state.report2){
+      var tb2 = report.totals;
+      var ta2 = state.report2.totals;
+      var summarySheetData = [
+        ['', 'Total SKU', 'Total Qty', 'Count Order'],
+        ['Data Portal', tb2.totalSalesSku, tb2.totalSalesQty, tb2.totalSalesOrderCount],
+        ['Data MSD (Before)', tb2.totalWorkSku, tb2.totalWorkQty, tb2.totalWorkOrderCount],
+        ['Data MSD (After)', ta2.totalWorkSku, ta2.totalWorkQty, ta2.totalWorkOrderCount],
+        ['Missing (Before)', tb2.totalMissingSku, tb2.totalMissingQty, ''],
+        ['Missing (After)', ta2.totalMissingSku, ta2.totalMissingQty, ''],
+        ['Missing % (Before)', fmtPct(tb2.totalMissingSkuPct), fmtPct(tb2.totalMissingQtyPct), ''],
+        ['Missing % (After)', fmtPct(ta2.totalMissingSkuPct), fmtPct(ta2.totalMissingQtyPct), '']
+      ];
+      var ws5 = XLSX.utils.aoa_to_sheet(summarySheetData);
+      XLSX.utils.book_append_sheet(wb, ws5, 'Corrected Summary');
+
+      var detailRows2 = state.report2.details.map(function(d){
+        var base=[d.order,d.sku];
+        if (hasStore) base.push(d.store||'');
+        base.push(d.text||'', d.salesQty, d.workQty, d.missing, fmtPct(d.missingPct), d.status);
+        return base;
+      });
+      var ws6 = XLSX.utils.aoa_to_sheet([detailHeaders].concat(detailRows2));
+      XLSX.utils.book_append_sheet(wb, ws6, 'SKU Detail Fixed');
+
+      var msdFixedTagged = state.workResultFixed ? buildTaggedMsdRows(state.rawWorkFixedRows || [], state.workResultFixed) : (state.rawWorkFixedRows || []);
+      var ws7 = XLSX.utils.aoa_to_sheet(msdFixedTagged);
+      XLSX.utils.book_append_sheet(wb, ws7, 'Data MSD Fixed');
+    }
+
+    XLSX.writeFile(wb, 'SKU_Reconciliation_Report.xlsx');
+  });
+
 })();
 </script>
 </body>
